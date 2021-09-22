@@ -1,10 +1,8 @@
 # tugas-1-putukrisna6
 tugas-1-putukrisna6 created by GitHub Classroom
 
-Gambar: Kardus
+Gambar: Kunci Mobil
 
-![1344526](https://user-images.githubusercontent.com/43901559/134148810-1e83b7e4-b5d7-49d4-9fbf-18c6a4d0c8d5.jpg)
-![1344525](https://user-images.githubusercontent.com/43901559/134148859-8ffcb18d-e9f5-4e0b-856b-2c0d40047112.jpg)
-![1344528](https://user-images.githubusercontent.com/43901559/134148868-e659a3d0-a20e-4308-95d1-32716a999071.jpg)
-![1344527](https://user-images.githubusercontent.com/43901559/134148883-2bc6afcb-96a8-42a2-859c-f32d95791101.jpg)
-
+| ![1346432](https://user-images.githubusercontent.com/43901559/134372228-50575b46-b874-4235-8ef0-a53b97c5b4c4.jpg) | ![1346434](https://user-images.githubusercontent.com/43901559/134372275-bdee55d7-5dc1-4109-8f75-39b00fc1a0f8.jpg) |
+|------|------|
+| ![1346433](https://user-images.githubusercontent.com/43901559/134372323-36dd89ae-9879-4416-81f8-e3077002bd59.jpg) | ![1346435](https://user-images.githubusercontent.com/43901559/134372345-499b7003-3834-4669-94a1-b41b34e357d4.jpg) |
