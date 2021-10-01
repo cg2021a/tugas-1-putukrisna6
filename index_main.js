@@ -13,11 +13,12 @@ function createShader(gl, type, source) {
 }
 
 let canvas = document.getElementById('myCanvas');
-let mode = 0;
 let gl = canvas.getContext('experimental-webgl');
 
-// let vertices = [...c2_belakang, ...c2_alas, ...c2_badan, ...c1_lingkaran, ...c1_badan];
-let vertices = [...k2_badan, ...k2_bawah,...k2_ujung, ...k2_ujung_bawah, ...k2_kotak, ...k2_kotak_bawah, ...k2_hubung, ...k1_badan, ...k1_bawah, ...k1_ujung, ...k1_ujung_2, ...k1_kotak,...k1_kotak_bawah, ...k1_hubung];
+let vertices = [
+	...k2_badan, ...k2_bawah,...k2_ujung, ...k2_ujung_bawah, ...k2_kotak, ...k2_kotak_bawah, ...k2_hubung, 
+	...k1_badan, ...k1_bawah, ...k1_ujung, ...k1_ujung_2, ...k1_kotak,...k1_kotak_bawah, ...k1_hubung
+];
 
 let vertexShaderCode = `
 	attribute vec2 a_position;
@@ -195,35 +196,43 @@ gl.enableVertexAttribArray(coords);
 let dy = 0;
 let speed = 0.0082;
 function drawScene() {
-		dy >= 0.5 ? speed = -speed : speed = speed;
-		dy <= -1 ? speed = -speed : speed = speed;
-		dy += speed;
-		gl.useProgram(shaderProgram);
-		const leftObject = [
-			1.0, 0.0, 0.0, 0.0,
-			0.0, 1.0, 0.0, 0.0,
-			0.0, 0.0, 1.0, 0.0,
-			-0.5, 0.0, 0.0, 1.0,
-		]
+	dy >= 0.25 ? speed = -speed : speed = speed;
+	dy <= -0.85 ? speed = -speed : speed = speed;
+	dy += speed;
+	gl.useProgram(shaderProgram);
+	const leftObject = [
+		1.0, 0.0, 0.0, 0.0,
+		0.0, 1.0, 0.0, 0.0,
+		0.0, 0.0, 1.0, 0.0,
+		-0.60, 0.0, 0.0, 1.0,
+	]
 		
-		const rightObject = [
-			1.0, 0.0, 0.0, 0.0,
-			0.0, 1.0, 0.0, 0.0,
-			0.0, 0.0, 1.0, 0.0,
-			0.5, dy, 0.0, 1.0,
-		]
+	const rightObject = [
+		1.0, 0.0, 0.0, 0.0,
+		0.0, 1.0, 0.0, 0.0,
+		0.0, 0.0, 1.0, 0.0,
+		0.45, dy, 0.0, 1.0,
+	]
 		
-		gl.clearColor(0.15, 0.15, 0.15, 1);
-		gl.clear(gl.COLOR_BUFFER_BIT);
+	gl.clearColor(0.15, 0.15, 0.15, 1);
+	gl.clear(gl.COLOR_BUFFER_BIT);
 
-		const u_matrix = gl.getUniformLocation(shaderProgram, 'u_matrix');
-		gl.uniformMatrix4fv(u_matrix, false, rightObject);
+	const u_matrix = gl.getUniformLocation(shaderProgram, 'u_matrix');
+	gl.uniformMatrix4fv(u_matrix, false, rightObject);
     
-    gl.drawArrays(gl.TRIANGLES, 0, (k2_badan.length + k2_bawah.length + k2_ujung.length + k2_ujung_bawah.length + k2_kotak.length + k2_kotak_bawah.length + k2_hubung.length)/2);
+    gl.drawArrays(
+		gl.TRIANGLES, 
+		0, 
+		(k2_badan.length + k2_bawah.length + k2_ujung.length + k2_ujung_bawah.length + k2_kotak.length + k2_kotak_bawah.length + k2_hubung.length)/2
+	);
 		
-		gl.uniformMatrix4fv(u_matrix, false, leftObject);
-    gl.drawArrays(gl.TRIANGLES, (k2_badan.length + k2_bawah.length + k2_ujung.length + k2_ujung_bawah.length + k2_kotak.length + k2_kotak_bawah.length + k2_hubung.length)/2, (k1_badan.length + k1_bawah.length + k1_ujung.length + k1_ujung_2.length + k1_kotak.length + k1_kotak_bawah.length + k1_hubung.length)/2);
-		requestAnimationFrame(drawScene);
+	gl.uniformMatrix4fv(u_matrix, false, leftObject);
+    gl.drawArrays(
+		gl.TRIANGLES, 
+		(k2_badan.length + k2_bawah.length + k2_ujung.length + k2_ujung_bawah.length + k2_kotak.length + k2_kotak_bawah.length + k2_hubung.length)/2, 
+		(k1_badan.length + k1_bawah.length + k1_ujung.length + k1_ujung_2.length + k1_kotak.length + k1_kotak_bawah.length + k1_hubung.length)/2
+	);
+	requestAnimationFrame(drawScene);
 }
 
 drawScene();
