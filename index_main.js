@@ -54,132 +54,32 @@ var colorLocation = gl.getAttribLocation(shaderProgram, "a_color");
 
 var color = [];
 
-for (let i = 0; i < k2_badan.length/2; i++) {
-	let r = 0.60;
-	let g = 0.60;
-	let b = 0.60;
-	color.push(r);
-	color.push(g);
-	color.push(b);
-	color.push(1);
+function makeColor(item, r, g, b) {
+	for (let i = 0; i < item.length/2; i++) {
+		color.push(r);
+		color.push(g);
+		color.push(b);
+		color.push(1);
+	}
 }
-for (let i = 0; i < k2_bawah.length/2; i++) {
-	let r = 0.45;
-	let g = 0.45;
-	let b = 0.45;
-	color.push(r);
-	color.push(g);
-	color.push(b);
-	color.push(1);
-}
-for (let i = 0; i < k2_ujung.length/2; i++) {
-	let r = 0.85;
-	let g = 0.85;
-	let b = 0.85;
-	color.push(r);
-	color.push(g);
-	color.push(b);
-	color.push(1);
-}
-for (let i = 0; i < k2_ujung_bawah.length/2; i++) {
-	let r = 0.65;
-	let g = 0.65;
-	let b = 0.65;
-	color.push(r);
-	color.push(g);
-	color.push(b);
-	color.push(1);
-}
-for (let i = 0; i < k2_kotak.length/2; i++) {
-	let r = 0.87;
-	let g = 0.65;
-	let b = 0.47;
-	color.push(r);
-	color.push(g);
-	color.push(b);
-	color.push(1);
-}
-for (let i = 0; i < k2_kotak_bawah.length/2; i++) {
-	let r = 0.8;
-	let g = 0.6;
-	let b = 0.37;
-	color.push(r);
-	color.push(g);
-	color.push(b);
-	color.push(1);
-}
-for (let i = 0; i < k2_hubung.length/2; i++) {
-	let r = 0.85;
-	let g = 0.85;
-	let b = 0.85;
-	color.push(r);
-	color.push(g);
-	color.push(b);
-	color.push(1);
-}
-for (let i = 0; i < k1_badan.length/2; i++) {
-	let r = 0.65;
-	let g = 0.65;
-	let b = 0.65;
-	color.push(r);
-	color.push(g);
-	color.push(b);
-	color.push(1);
-}
-for (let i = 0; i < k1_bawah.length/2; i++) {
-	let r = 0.45;
-	let g = 0.45;
-	let b = 0.45;
-	color.push(r);
-	color.push(g);
-	color.push(b);
-	color.push(1);
-}
-for (let i = 0; i < k1_ujung.length/2; i++) {
-	let r = 0.85;
-	let g = 0.85;
-	let b = 0.85;
-	color.push(r);
-	color.push(g);
-	color.push(b);
-	color.push(1);
-}
-for (let i = 0; i < k1_ujung_2.length/2; i++) {
-	let r = 0.85;
-	let g = 0.85;
-	let b = 0.85;
-	color.push(r);
-	color.push(g);
-	color.push(b);
-	color.push(1);
-}
-for (let i = 0; i < k1_kotak.length/2; i++) {
-	let r = 0.87;
-	let g = 0.65;
-	let b = 0.47;
-	color.push(r);
-	color.push(g);
-	color.push(b);
-	color.push(1);
-}
-for (let i = 0; i < k1_kotak_bawah.length/2; i++) {
-	let r = 0.8;
-	let g = 0.6;
-	let b = 0.37;
-	color.push(r);
-	color.push(g);
-	color.push(b);
-	color.push(1);
-}
-for (let i = 0; i < k1_hubung.length/2; i++) {
-	let r = 0.85;
-	let g = 0.85;
-	let b = 0.85;
-	color.push(r);
-	color.push(g);
-	color.push(b);
-	color.push(1);
-}
+
+// Kunci 2
+makeColor(k2_badan, 0.60, 0.60, 0.60);
+makeColor(k2_bawah, 0.45, 0.45, 0.45);
+makeColor(k2_ujung, 0.85, 0.85, 0.85);
+makeColor(k2_ujung_bawah, 0.65, 0.65, 0.65);
+makeColor(k2_kotak, 0.87, 0.65, 0.47);
+makeColor(k2_kotak_bawah, 0.80, 0.60, 0.37);
+makeColor(k2_hubung, 0.85, 0.85, 0.85);
+
+// Kunci 1
+makeColor(k1_badan, 0.65, 0.65, 0.65);
+makeColor(k1_bawah, 0.45, 0.45, 0.45);
+makeColor(k1_ujung, 0.85, 0.85, 0.85);
+makeColor(k1_ujung_2, 0.85, 0.85, 0.85);
+makeColor(k1_kotak, 0.87, 0.65, 0.47);
+makeColor(k1_kotak_bawah, 0.80, 0.60, 0.37);
+makeColor(k1_hubung, 0.85, 0.85, 0.85);
 
 let colorBuffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
@@ -195,9 +95,13 @@ gl.enableVertexAttribArray(coords);
 
 let dy = 0;
 let speed = 0.0082;
+
+let kunci2 = (k2_badan.length + k2_bawah.length + k2_ujung.length + k2_ujung_bawah.length + k2_kotak.length + k2_kotak_bawah.length + k2_hubung.length)/2;
+let kunci1 = (k1_badan.length + k1_bawah.length + k1_ujung.length + k1_ujung_2.length + k1_kotak.length + k1_kotak_bawah.length + k1_hubung.length)/2;
+
 function drawScene() {
-	dy >= 0.25 ? speed = -speed : speed = speed;
-	dy <= -0.85 ? speed = -speed : speed = speed;
+	dy >= 0.4 ? speed = -speed : speed = speed;
+	dy <= -1 ? speed = -speed : speed = speed;
 	dy += speed;
 	gl.useProgram(shaderProgram);
 	const leftObject = [
@@ -223,14 +127,14 @@ function drawScene() {
     gl.drawArrays(
 		gl.TRIANGLES, 
 		0, 
-		(k2_badan.length + k2_bawah.length + k2_ujung.length + k2_ujung_bawah.length + k2_kotak.length + k2_kotak_bawah.length + k2_hubung.length)/2
+		kunci2
 	);
 		
 	gl.uniformMatrix4fv(u_matrix, false, leftObject);
     gl.drawArrays(
 		gl.TRIANGLES, 
-		(k2_badan.length + k2_bawah.length + k2_ujung.length + k2_ujung_bawah.length + k2_kotak.length + k2_kotak_bawah.length + k2_hubung.length)/2, 
-		(k1_badan.length + k1_bawah.length + k1_ujung.length + k1_ujung_2.length + k1_kotak.length + k1_kotak_bawah.length + k1_hubung.length)/2
+		kunci2, 
+		kunci1
 	);
 	requestAnimationFrame(drawScene);
 }
