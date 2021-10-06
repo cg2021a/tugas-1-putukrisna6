@@ -61,7 +61,6 @@ class Cube extends Shapes {
         const material = this.addPhongMaterial(color);
 
         this.addToScene(posX, posY, posZ, geometry, material);
-        this.addWireframe();
     }
 }
 
@@ -99,12 +98,11 @@ class Cone extends Shapes {
         super();
         const radius = 0.5;
         const height = 1;
-        const radialSegments = 20;
+        const radialSegments = 100;
         const geometry = new THREE.ConeGeometry(radius, height, radialSegments);
         const material = this.addPhongMaterial(color);
 
         this.addToScene(posX, posY, posZ, geometry, material);
-        this.addWireframe();
     }
 }
 
