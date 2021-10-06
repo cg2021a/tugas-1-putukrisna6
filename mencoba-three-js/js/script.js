@@ -12,6 +12,14 @@ class Shapes {
             flatShading: true,
         });
     }
+    
+    addBasicMaterial(color) {
+        return new THREE.MeshBasicMaterial({color: color});
+    }
+
+    addLambertMaterial(color) {
+        return new THREE.MeshLambertMaterial({color: color});
+    }
 
     addToScene(posX, posY, posZ, geometry, material) {
         this.mesh = new THREE.Mesh(geometry, material);
@@ -112,7 +120,7 @@ class Octahedron extends Shapes {
         const radius = 0.6;
         const detail = 2;
         const geometry = new THREE.OctahedronGeometry(radius, detail);
-        const material = this.addPhongMaterial(color);
+        const material = this.addLambertMaterial(color);
 
         this.addToScene(posX, posY, posZ, geometry, material);
         this.addWireframe();
@@ -127,6 +135,30 @@ class Sphere extends Shapes {
 
         this.addToScene(posX, posY, posZ, geometry, material);
         this.addWireframe();
+    }
+}
+
+class TorusKnot extends Shapes {
+    constructor(posX = 0, posY = 0, posZ = 0, color = 0xff00ff) {
+        super();
+        const radius = 2;  
+        const tubeRadius = 0.5;  
+        const radialSegments = 8;  
+        const tubularSegments = 64;  
+        const p = 2;  
+        const q = 3;  
+
+        const geometry = new THREE.TorusKnotGeometry(
+            radius, 
+            tubeRadius, 
+            tubularSegments, 
+            radialSegments, 
+            p, 
+            q
+        );
+        const material = this.addBasicMaterial(color);
+
+        this.addToScene(posX, posY, posZ, geometry, material);
     }
 }
 
@@ -155,8 +187,9 @@ function init() {
     torus = new Torus(0, 0, 0, 0x3456ff);
     ring = new Ring(3, -2, 0, 0xfff321);
     cone = new Cone(-3, 0, 0, 0x1fbbff);
-    octahedron = new Octahedron(0, -2, 0, 0xee00ee);
+    octahedron = new Octahedron(0, -2, 0, 0xffb703);
     sphere = new Sphere(0, 1.5, 3, 0x00ff00);
+    torusKnot = new TorusKnot(0, 0, -8, 0x219ebc);
     
     // 4. create the renderer
     
@@ -175,10 +208,11 @@ function init() {
 function mainLoop() {
     cube.rotate(0.01);
     torus.rotate(-0.03);
-    ring.rotate(0.02, -0.02, 0.02);
+    ring.rotate(0, 0, 0.09);
     cone.rotate(-0.01, 0, 0.02);
-    octahedron.rotate(0.05, 0.05, 0.05);
+    octahedron.rotate(0.05, 0, 0.05);
     sphere.rotate(0.05, 0, -0.05);
+    torusKnot.rotate(0.08, 0.08, 0.08);
 
     cone.moveY();
     octahedron.moveZ();
