@@ -1,6 +1,6 @@
 /// <reference types="three" />
 
-let scene, camera, renderer, light;
+let scene, camera, renderer, light, canvas;
 
 function createCube() {
     const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -72,11 +72,13 @@ function init() {
     createSphere();
     createCone();
     createTorus(); // 4. create the renderer
+    
+    canvas = document.querySelector('#myCanvas');
+    renderer = new THREE.WebGLRenderer({canvas: myCanvas, antialias: true});
+	renderer.setClearColor(0x000000);
+	renderer.setPixelRatio(window.devicePixelRatio);
 
-    renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-
-    document.body.appendChild(renderer.domElement);
+    document.querySelector('#inside').appendChild(renderer.domElement);
 }
 
 
