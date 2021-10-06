@@ -2,13 +2,6 @@
 
 let scene, camera, renderer, light, canvas;
 
-function addWireframe(mesh) {
-    let geo = new THREE.WireframeGeometry(mesh.geometry);
-    let mat = new THREE.LineBasicMaterial({color: 0xffffff});
-    let wireframe = new THREE.LineSegments(geo, mat);
-    mesh.add(wireframe);
-}
-
 class Shapes {
     mesh;
     speed = 0.01;
@@ -24,8 +17,6 @@ class Shapes {
         this.mesh = new THREE.Mesh(geometry, material);
         this.mesh.position.set(posX, posY, posZ);
         scene.add(this.mesh);
-
-        this.addWireframe();
     }
     
     addWireframe() {
@@ -53,12 +44,10 @@ class Shapes {
         if (this.mesh.position.x >= 5 || this.mesh.position.x <= -5) this.speed = -this.speed;
         this.mesh.position.x += this.speed;
     }
-
     moveY() {
         if (this.mesh.position.y >= 3 || this.mesh.position.y <= -3) this.speed = -this.speed;
         this.mesh.position.y += this.speed;
     }
-
     moveZ() {
         if (this.mesh.position.z >= 5 || this.mesh.position.z <= -5) this.speed = -this.speed;
         this.mesh.position.z += this.speed;
@@ -71,7 +60,8 @@ class Cube extends Shapes {
         const geometry = new THREE.BoxGeometry(1, 1, 1);
         const material = this.addPhongMaterial(color);
 
-        this.addToScene(posX, posY, posZ, geometry, material)
+        this.addToScene(posX, posY, posZ, geometry, material);
+        this.addWireframe();
     }
 }
 
@@ -81,7 +71,8 @@ class Torus extends Shapes {
         const geometry = new THREE.TorusGeometry(0.5, 0.25, 10, 50);
         const material = this.addPhongMaterial(color);
 
-        this.addToScene(posX, posY, posZ, geometry, material)
+        this.addToScene(posX, posY, posZ, geometry, material);
+        this.addWireframe();
     }
 }
 
@@ -98,7 +89,8 @@ class Ring extends Shapes {
         );
         const material = this.addPhongMaterial(color);
 
-        this.addToScene(posX, posY, posZ, geometry, material)
+        this.addToScene(posX, posY, posZ, geometry, material);
+        this.addWireframe();
     }
 }
 
@@ -111,7 +103,8 @@ class Cone extends Shapes {
         const geometry = new THREE.ConeGeometry(radius, height, radialSegments);
         const material = this.addPhongMaterial(color);
 
-        this.addToScene(posX, posY, posZ, geometry, material)
+        this.addToScene(posX, posY, posZ, geometry, material);
+        this.addWireframe();
     }
 }
 
@@ -123,7 +116,8 @@ class Octahedron extends Shapes {
         const geometry = new THREE.OctahedronGeometry(radius, detail);
         const material = this.addPhongMaterial(color);
 
-        this.addToScene(posX, posY, posZ, geometry, material)
+        this.addToScene(posX, posY, posZ, geometry, material);
+        this.addWireframe();
     }
 }
 
@@ -133,7 +127,8 @@ class Sphere extends Shapes {
         const geometry = new THREE.SphereGeometry(0.4, 32, 16);
         const material = this.addPhongMaterial(color);
 
-        this.addToScene(posX, posY, posZ, geometry, material)
+        this.addToScene(posX, posY, posZ, geometry, material);
+        this.addWireframe();
     }
 }
 
