@@ -3,23 +3,52 @@
 let scene, camera, renderer, light, canvas;
 
 function addWireframe(mesh) {
-    var geo = new THREE.WireframeGeometry(mesh.geometry);
-    var mat = new THREE.LineBasicMaterial({color: 0xffffff});
-    var wireframe = new THREE.LineSegments(geo, mat);
+    let geo = new THREE.WireframeGeometry(mesh.geometry);
+    let mat = new THREE.LineBasicMaterial({color: 0xffffff});
+    let wireframe = new THREE.LineSegments(geo, mat);
     mesh.add(wireframe);
 }
 
-function createCube() {
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshPhongMaterial({
-        color: 0xff0000,
-        flatShading: true,
-    });
-    cube = new THREE.Mesh(geometry, material);
-    cube.position.x = 3;
-    scene.add(cube);
+class Shapes {
+    mesh;
 
-    addWireframe(cube);
+    addPhongMaterial(color = 0xee00ee) {
+        return new THREE.MeshPhongMaterial({
+            color: color,
+            flatShading: true,
+        });
+    }
+
+    addToScene(posX, posY, posZ, geometry, material) {
+        this.mesh = new THREE.Mesh(geometry, material);
+        this.mesh.position.set(posX, posY, posZ);
+        scene.add(this.mesh);
+
+        this.addWireframe();
+    }
+    
+    addWireframe() {
+        const geo = new THREE.WireframeGeometry(this.mesh.geometry);
+        const mat = new THREE.LineBasicMaterial({color: 0xffffff});
+        const wireframe = new THREE.LineSegments(geo, mat);
+        this.mesh.add(wireframe);
+    }
+
+    rotate(dx = 0, dy = 0, dz = 0) {
+        this.mesh.rotation.x += dx;
+        this.mesh.rotation.y += dy;
+        this.mesh.rotation.z += dz;
+    }
+}
+
+class Cube extends Shapes {
+    constructor(posX = 0, posY = 0, posZ = 0) {
+        super();
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const material = this.addPhongMaterial(0xff0000);
+
+        this.addToScene(posX, posY, posZ, geometry, material)
+    }
 }
 
 function createOctahedron() {
@@ -124,7 +153,8 @@ function init() {
 
     // 3. create an locate the object on the scene
     
-    createCube();
+    cube = new Cube(3);
+
     createSphere();
     createCone();
     createTorus(); 
@@ -144,15 +174,17 @@ function init() {
 
 
 // main animation loop - calls 50-60 in a second.
-var speedCone = 0.01;
-var dxSphere = 0.01;
-var dzOctahedron = 0.01;
+let speedCone = 0.01;
+let dxSphere = 0.01;
+let dzOctahedron = 0.01;
 
 function mainLoop() {
+    cube.rotate(0.01);
+
     sphere.rotation.y += 0.01;
     octahedron.rotation.z += 0.01;
 
-    [cube, cone, sphere, torus, octahedron, ring].forEach((obj) => (obj.rotation.x) += 0.01);
+    [cone, sphere, torus, octahedron, ring].forEach((obj) => (obj.rotation.x) += 0.01);
 
     ring.rotation.y += 0.01;
     ring.rotation.z += 0.01;
