@@ -4,17 +4,53 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tugas 1</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Grafika Komputer A | WebGL & ThreeJS</title>
+
+    <style>
+        body {
+            -webkit-font-smoothing: antialiased;
+        }
+        .container {
+            font-family: 'Open Sans', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            padding: 2em 0em;
+            height: 100%;
+        }
+        .card {
+            margin-top: 10em;
+            border-radius: 20px;
+            height: 50vh;
+            min-height: 30em;
+            width: 40em;
+            -webkit-box-shadow: 0px 5px 15px 10px rgba(0,0,0,0.25); 
+            box-shadow: 0px 5px 23px 2px rgb(2 48 71 / 35%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .yellow {
+            color: #ffb703;
+        }
+        a {
+            padding: 1rem 0;
+            text-decoration: none;
+            color: #219ebc;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h2 style="margin-bottom: 0;">Kunci Mobil | Tugas 1 Grafika Komputer (A)</h2>
-        <h3>Putu Krisna Andyartha | 05111940000082</h3>
-        <br>
-        <canvas id="myCanvas" width="600 " height="600" ></canvas>
-    </div>
+    <section class="container">
+        <div class="card">
+            <h1 style="margin-top: -10px;">Welcome to Tugas 1 | <span class="yellow">Grafika Komputer (A)</span></h1>
+            <br>
+            <a href="/menggambar-benda/">Menggambar Benda dengan WebGL</a>
+            <a href="/mencoba-three-js/">Mencoba ThreeJS</a>
+        </div>
+    </section>
 </body>
-<script src="./kunci.js"></script>
-<script src="./index_main.js"></script>
 </html>
