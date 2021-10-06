@@ -11,8 +11,9 @@ function addWireframe(mesh) {
 
 class Shapes {
     mesh;
+    speed = 0.01;
 
-    addPhongMaterial(color = 0xee00ee) {
+    addPhongMaterial(color) {
         return new THREE.MeshPhongMaterial({
             color: color,
             flatShading: true,
@@ -39,13 +40,76 @@ class Shapes {
         this.mesh.rotation.y += dy;
         this.mesh.rotation.z += dz;
     }
+
+    getMesh() {
+        return this.mesh;
+    }
+
+    setSpeed(speed) {
+        this.speed = speed;
+    }
+
+    moveX() {
+        if (this.mesh.position.x >= 5 || this.mesh.position.x <= -5) this.speed = -this.speed;
+        this.mesh.position.x += this.speed;
+    }
+
+    moveY() {
+        if (this.mesh.position.y >= 3 || this.mesh.position.y <= -3) this.speed = -this.speed;
+        this.mesh.position.y += this.speed;
+    }
+
+    moveZ() {
+        if (this.mesh.position.z >= 5 || this.mesh.position.z <= -5) this.speed = -this.speed;
+        this.mesh.position.z += this.speed;
+    }
 }
 
 class Cube extends Shapes {
-    constructor(posX = 0, posY = 0, posZ = 0) {
+    constructor(posX = 0, posY = 0, posZ = 0, color = 0xff0000) {
         super();
         const geometry = new THREE.BoxGeometry(1, 1, 1);
-        const material = this.addPhongMaterial(0xff0000);
+        const material = this.addPhongMaterial(color);
+
+        this.addToScene(posX, posY, posZ, geometry, material)
+    }
+}
+
+class Torus extends Shapes {
+    constructor(posX = 0, posY = 0, posZ = 0, color = 0xff0000) {
+        super();
+        const geometry = new THREE.TorusGeometry(0.5, 0.25, 10, 50);
+        const material = this.addPhongMaterial(color);
+
+        this.addToScene(posX, posY, posZ, geometry, material)
+    }
+}
+
+class Ring extends Shapes {
+    constructor(posX = 0, posY = 0, posZ = 0, color = 0xff0000) {
+        super();
+        const innerRadius = 0.25;  
+        const outerRadius = 0.75;  
+        const thetaSegments = 18;  
+        const geometry = new THREE.RingGeometry(
+            innerRadius, 
+            outerRadius, 
+            thetaSegments
+        );
+        const material = this.addPhongMaterial(color);
+
+        this.addToScene(posX, posY, posZ, geometry, material)
+    }
+}
+
+class Cone extends Shapes {
+    constructor(posX = 0, posY = 0, posZ = 0, color = 0xff00ff) {
+        super();
+        const radius = 0.5;
+        const height = 1;
+        const radialSegments = 20;
+        const geometry = new THREE.ConeGeometry(radius, height, radialSegments);
+        const material = this.addPhongMaterial(color);
 
         this.addToScene(posX, posY, posZ, geometry, material)
     }
@@ -80,58 +144,6 @@ function createSphere() {
     addWireframe(sphere);
 }
 
-function createCone() {
-    const radius = 0.5;
-    const height = 1;
-    const radialSegments = 20;
-    const geometry = new THREE.ConeGeometry(radius, height, radialSegments);
-    const material = new THREE.MeshPhongMaterial({
-        color: 0xff00ff,
-        flatShading: true,
-    });
-
-    cone = new THREE.Mesh(geometry, material);
-    cone.position.x = -3;
-    scene.add(cone);
-
-    addWireframe(cone);
-}
-
-function createTorus() {
-    const geometry = new THREE.TorusGeometry(0.5, 0.25, 10, 50);
-    const material = new THREE.MeshPhongMaterial({
-        color: 0x00ffff,
-        flatShading: true,
-    });
-    torus = new THREE.Mesh(geometry, material);
-    scene.add(torus);
-
-    addWireframe(torus);
-}
-
-function createRing() {
-    const innerRadius = 0.5;  
-    const outerRadius = 1;  
-    const thetaSegments = 18;  
-    const geometry = new THREE.RingGeometry(
-        innerRadius, 
-        outerRadius, 
-        thetaSegments
-    );
-
-    const material = new THREE.MeshPhongMaterial({
-        color: 0xaaeecc,
-        flatShading: true,
-    });
-    ring = new THREE.Mesh(geometry, material);
-    ring.position.x = 3;
-    ring.position.y = -2;
-    scene.add(ring);
-
-    addWireframe(ring);
-}
-
-
 // set up the environment - // initiallize scene, camera, objects and renderer
 function init() {
     // 1. create the scene
@@ -153,13 +165,14 @@ function init() {
 
     // 3. create an locate the object on the scene
     
-    cube = new Cube(3);
+    cube = new Cube(3, 0, 0, 0xff34aa);
+    torus = new Torus(0, 0, 0, 0x3456ff);
+    ring = new Ring(3, -2, 0, 0xfff321);
+    cone = new Cone(-3, 0, 0, 0x1fbbff);
+
 
     createSphere();
-    createCone();
-    createTorus(); 
     createOctahedron();
-    createRing();
     
     // 4. create the renderer
     
@@ -174,24 +187,21 @@ function init() {
 
 
 // main animation loop - calls 50-60 in a second.
-let speedCone = 0.01;
 let dxSphere = 0.01;
 let dzOctahedron = 0.01;
 
 function mainLoop() {
     cube.rotate(0.01);
+    torus.rotate(-0.03);
+    ring.rotate(0.02, -0.02, 0.02);
+    cone.rotate(-0.01, 0, 0.02);
 
     sphere.rotation.y += 0.01;
     octahedron.rotation.z += 0.01;
 
-    [cone, sphere, torus, octahedron, ring].forEach((obj) => (obj.rotation.x) += 0.01);
+    [sphere, octahedron].forEach((obj) => (obj.rotation.x) += 0.01);
 
-    ring.rotation.y += 0.01;
-    ring.rotation.z += 0.01;
-
-    const currentPos = cone.position.y;
-    if (currentPos >= 3 || currentPos <= -3) speedCone = -speedCone;
-    cone.position.y += speedCone;
+    cone.moveY();
 
     if (sphere.position.x >= 5 || sphere.position.x <= -5) dxSphere = -dxSphere;
     sphere.position.x += dxSphere;
