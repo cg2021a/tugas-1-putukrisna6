@@ -115,33 +115,26 @@ class Cone extends Shapes {
     }
 }
 
-function createOctahedron() {
-    const radius = 0.6;
-    const detail = 2;
-    const geometry = new THREE.OctahedronGeometry(radius, detail);
-    const material = new THREE.MeshPhongMaterial({
-        color: 0xee00ee,
-        flatShading: true,
-    });
-    octahedron = new THREE.Mesh(geometry, material);
-    octahedron.position.y = -2;
-    scene.add(octahedron);
+class Octahedron extends Shapes {
+    constructor(posX = 0, posY = 0, posZ = 0, color = 0xff00ff) {
+        super();
+        const radius = 0.6;
+        const detail = 2;
+        const geometry = new THREE.OctahedronGeometry(radius, detail);
+        const material = this.addPhongMaterial(color);
 
-    addWireframe(octahedron);
+        this.addToScene(posX, posY, posZ, geometry, material)
+    }
 }
 
-function createSphere() {
-    const geometry = new THREE.SphereGeometry(0.4, 32, 16);
-    const material = new THREE.MeshPhongMaterial({
-        color: 0x00ff00,
-        flatShading: true,
-    });
-    sphere = new THREE.Mesh(geometry, material);
-    sphere.position.y = 1.5;
-    sphere.position.z = 3;
-    scene.add(sphere);
+class Sphere extends Shapes {
+    constructor(posX = 0, posY = 0, posZ = 0, color = 0xff00ff) {
+        super();
+        const geometry = new THREE.SphereGeometry(0.4, 32, 16);
+        const material = this.addPhongMaterial(color);
 
-    addWireframe(sphere);
+        this.addToScene(posX, posY, posZ, geometry, material)
+    }
 }
 
 // set up the environment - // initiallize scene, camera, objects and renderer
@@ -169,10 +162,8 @@ function init() {
     torus = new Torus(0, 0, 0, 0x3456ff);
     ring = new Ring(3, -2, 0, 0xfff321);
     cone = new Cone(-3, 0, 0, 0x1fbbff);
-
-
-    createSphere();
-    createOctahedron();
+    octahedron = new Octahedron(0, -2, 0, 0xee00ee);
+    sphere = new Sphere(0, 1.5, 3, 0x00ff00);
     
     // 4. create the renderer
     
@@ -187,27 +178,19 @@ function init() {
 
 
 // main animation loop - calls 50-60 in a second.
-let dxSphere = 0.01;
-let dzOctahedron = 0.01;
 
 function mainLoop() {
     cube.rotate(0.01);
     torus.rotate(-0.03);
     ring.rotate(0.02, -0.02, 0.02);
     cone.rotate(-0.01, 0, 0.02);
-
-    sphere.rotation.y += 0.01;
-    octahedron.rotation.z += 0.01;
-
-    [sphere, octahedron].forEach((obj) => (obj.rotation.x) += 0.01);
+    octahedron.rotate(0.05, 0.05, 0.05);
+    sphere.rotate(0.05, 0, -0.05);
 
     cone.moveY();
-
-    if (sphere.position.x >= 5 || sphere.position.x <= -5) dxSphere = -dxSphere;
-    sphere.position.x += dxSphere;
-
-    if (octahedron.position.z >= 5 || octahedron.position.z <= -5) dzOctahedron = -dzOctahedron;
-    octahedron.position.z += dzOctahedron;
+    octahedron.moveZ();
+    sphere.moveX();
+    sphere.moveZ();
 
     renderer.render(scene, camera);
     requestAnimationFrame(mainLoop);
