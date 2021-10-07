@@ -3,63 +3,66 @@
 let scene, camera, renderer, light, canvas;
 
 class Shapes {
-    mesh;
-    speed = 0.01;
+  mesh;
+  speed = 0.01;
 
-    addPhongMaterial(color) {
-        return new THREE.MeshPhongMaterial({
-            color: color,
-            flatShading: true,
-        });
-    }
-    
-    addBasicMaterial(color) {
-        return new THREE.MeshBasicMaterial({color: color});
-    }
+  addPhongMaterial(color) {
+    return new THREE.MeshPhongMaterial({
+      color: color,
+      flatShading: true,
+    });
+  }
 
-    addLambertMaterial(color) {
-        return new THREE.MeshLambertMaterial({color: color});
-    }
+  addBasicMaterial(color) {
+    return new THREE.MeshBasicMaterial({ color: color });
+  }
 
-    addToScene(posX, posY, posZ, geometry, material) {
-        this.mesh = new THREE.Mesh(geometry, material);
-        this.mesh.position.set(posX, posY, posZ);
-        scene.add(this.mesh);
-    }
-    
-    addWireframe() {
-        const geo = new THREE.WireframeGeometry(this.mesh.geometry);
-        const mat = new THREE.LineBasicMaterial({color: 0xffffff});
-        const wireframe = new THREE.LineSegments(geo, mat);
-        this.mesh.add(wireframe);
-    }
+  addLambertMaterial(color) {
+    return new THREE.MeshLambertMaterial({ color: color });
+  }
 
-    rotate(dx = 0, dy = 0, dz = 0) {
-        this.mesh.rotation.x += dx;
-        this.mesh.rotation.y += dy;
-        this.mesh.rotation.z += dz;
-    }
+  addToScene(posX, posY, posZ, geometry, material) {
+    this.mesh = new THREE.Mesh(geometry, material);
+    this.mesh.position.set(posX, posY, posZ);
+    scene.add(this.mesh);
+  }
 
-    getMesh() {
-        return this.mesh;
-    }
+  addWireframe() {
+    const geo = new THREE.WireframeGeometry(this.mesh.geometry);
+    const mat = new THREE.LineBasicMaterial({ color: 0xffffff });
+    const wireframe = new THREE.LineSegments(geo, mat);
+    this.mesh.add(wireframe);
+  }
 
-    setSpeed(speed) {
-        this.speed = speed;
-    }
+  rotate(dx = 0, dy = 0, dz = 0) {
+    this.mesh.rotation.x += dx;
+    this.mesh.rotation.y += dy;
+    this.mesh.rotation.z += dz;
+  }
 
-    moveX() {
-        if (this.mesh.position.x >= 5 || this.mesh.position.x <= -5) this.speed = -this.speed;
-        this.mesh.position.x += this.speed;
-    }
-    moveY() {
-        if (this.mesh.position.y >= 3 || this.mesh.position.y <= -3) this.speed = -this.speed;
-        this.mesh.position.y += this.speed;
-    }
-    moveZ() {
-        if (this.mesh.position.z >= 5 || this.mesh.position.z <= -5) this.speed = -this.speed;
-        this.mesh.position.z += this.speed;
-    }
+  getMesh() {
+    return this.mesh;
+  }
+
+  setSpeed(speed) {
+    this.speed = speed;
+  }
+
+  moveX() {
+    if (this.mesh.position.x >= 5 || this.mesh.position.x <= -5)
+      this.speed = -this.speed;
+    this.mesh.position.x += this.speed;
+  }
+  moveY() {
+    if (this.mesh.position.y >= 3 || this.mesh.position.y <= -3)
+      this.speed = -this.speed;
+    this.mesh.position.y += this.speed;
+  }
+  moveZ() {
+    if (this.mesh.position.z >= 5 || this.mesh.position.z <= -5)
+      this.speed = -this.speed;
+    this.mesh.position.z += this.speed;
+  }
 }
 
 class Cube extends Shapes {
@@ -86,13 +89,13 @@ class Torus extends Shapes {
 class Ring extends Shapes {
     constructor(posX = 0, posY = 0, posZ = 0, color = 0xff0000) {
         super();
-        const innerRadius = 0.25;  
-        const outerRadius = 0.75;  
-        const thetaSegments = 18;  
+        const innerRadius = 0.25;
+        const outerRadius = 0.75;
+        const thetaSegments = 18;
         const geometry = new THREE.RingGeometry(
-            innerRadius, 
-            outerRadius, 
-            thetaSegments
+        innerRadius,
+        outerRadius,
+        thetaSegments
         );
         const material = this.addPhongMaterial(color);
 
@@ -137,24 +140,23 @@ class Sphere extends Shapes {
         this.addWireframe();
     }
 }
-
 class TorusKnot extends Shapes {
     constructor(posX = 0, posY = 0, posZ = 0, color = 0xff00ff) {
         super();
-        const radius = 2;  
-        const tubeRadius = 0.5;  
-        const radialSegments = 8;  
-        const tubularSegments = 64;  
-        const p = 2;  
-        const q = 3;  
+        const radius = 2;
+        const tubeRadius = 0.5;
+        const radialSegments = 8;
+        const tubularSegments = 64;
+        const p = 2;
+        const q = 3;
 
         const geometry = new THREE.TorusKnotGeometry(
-            radius, 
-            tubeRadius, 
-            tubularSegments, 
-            radialSegments, 
-            p, 
-            q
+        radius,
+        tubeRadius,
+        tubularSegments,
+        radialSegments,
+        p,
+        q
         );
         const material = this.addBasicMaterial(color);
 
@@ -163,45 +165,65 @@ class TorusKnot extends Shapes {
 }
 
 // set up the environment - // initiallize scene, camera, objects and renderer
-function init() {
-    // 1. create the scene
-    scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xababab);
+// 1. create the scene
+scene = new THREE.Scene();
+scene.background = new THREE.Color(0xababab);
 
-    light = new THREE.DirectionalLight(0xffffff);
-    light.position.set(1, 0, 1).normalize();
-    scene.add(light); 
-    
-    // 2. create an locate the camera
-    const fov = 45;
-    const aspect = 2;  // the canvas default
-    const near = 0.1;
-    const far = 100;
-    camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    camera.position.set(0, 0, 10);
-    
+const dLight = new THREE.DirectionalLight(0xffffff, 1);
+dLight.position.set(1, 0, 1).normalize();
+const aLight = new THREE.AmbientLight(0xffffff, 1);
+aLight.position.set(0, 0, 10);
+const pLight = new THREE.PointLight(0xffffff, 1, 100);
+pLight.position.set(20, 20, 20);
+const hLight = new THREE.HemisphereLight(0xffffff, '#ffb703', 0.8);
+hLight.position.set(0, 10, 0);
+const sLight = new THREE.SpotLight(0xffffff, 1, 50);
+sLight.position.set(5, 10, 10);
 
-    // 3. create an locate the object on the scene
-    
-    cube = new Cube(3, 0, 0, 0xff34aa);
-    torus = new Torus(0, 0, 0, 0x3456ff);
-    ring = new Ring(3, -2, 0, 0xfff321);
-    cone = new Cone(-3, 0, 0, 0x1fbbff);
-    octahedron = new Octahedron(0, -2, 0, 0xffb703);
-    sphere = new Sphere(0, 1.5, 3, 0x00ff00);
-    torusKnot = new TorusKnot(0, 0, -8, 0x219ebc);
-    
-    // 4. create the renderer
-    
-    canvas = document.querySelector('#myCanvas');
-    renderer = new THREE.WebGLRenderer({canvas: myCanvas, antialias: true});
-	renderer.setClearColor(0x000000);
-	renderer.setPixelRatio(window.devicePixelRatio);
+const lights = [dLight, aLight, pLight, hLight, sLight];
 
-    document.querySelector('#inside').appendChild(renderer.domElement);
-}
+lights.forEach((obj) => scene.add(obj));
 
+lights.forEach((light) => {
+    light.visible = false;
+});
+lights[0].visible = true;
 
+const selectedLight = document.getElementById('light');
+selectedLight.addEventListener('change', (e) => {
+    const selected = e.target.value;
+    lights.forEach((light) => {
+        light.visible = false;
+    });
+    lights[selected].visible = true;
+});
+
+// 2. create an locate the camera
+const fov = 45;
+const aspect = 2; // the canvas default
+const near = 0.1;
+const far = 100;
+camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+camera.position.set(0, 0, 10);
+
+// 3. create an locate the object on the scene
+
+cube = new Cube(3, 0, 0, 0xff34aa);
+torus = new Torus(0, 0, 0, 0x3456ff);
+ring = new Ring(3, -2, 0, 0xfff321);
+cone = new Cone(-3, 0, 0, 0x1fbbff);
+octahedron = new Octahedron(0, -2, 0, 0xffb703);
+sphere = new Sphere(0, 1.5, 3, 0x00ff00);
+torusKnot = new TorusKnot(0, 0, -8, 0x219ebc);
+
+// 4. create the renderer
+
+canvas = document.querySelector("#myCanvas");
+renderer = new THREE.WebGLRenderer({ canvas: myCanvas, antialias: true });
+renderer.setClearColor(0x000000);
+renderer.setPixelRatio(window.devicePixelRatio);
+
+document.querySelector("#inside").appendChild(renderer.domElement);
 
 // main animation loop - calls 50-60 in a second.
 
@@ -224,5 +246,5 @@ function mainLoop() {
 }
 
 ///////////////////////////////////////////////
-init();
+// init();
 mainLoop();
