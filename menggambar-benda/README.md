@@ -1,7 +1,7 @@
-# tugas-1-putukrisna6
-tugas-1-putukrisna6 created by GitHub Classroom
+# Tugas 1 | Grafika Komputer A
+## Menggambar Benda dengan WebGL
 
-Gambar: Kunci Mobil
+## Benda: Kunci Mobil
 
 | ![1346432](https://user-images.githubusercontent.com/43901559/134372228-50575b46-b874-4235-8ef0-a53b97c5b4c4.jpg) | ![1346434](https://user-images.githubusercontent.com/43901559/134372275-bdee55d7-5dc1-4109-8f75-39b00fc1a0f8.jpg) |
 |------|------|
