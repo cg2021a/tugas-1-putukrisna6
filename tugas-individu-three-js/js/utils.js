@@ -28,7 +28,7 @@ const highScore = localStorage.getItem("highScore");
 logScore.textContent = highScore;
 
 function playAudio() {
-  let audio = new Audio("../audio/ding.mp3");
+  let audio = new Audio("audio/ding.mp3");
   audio.play();
 }
 
