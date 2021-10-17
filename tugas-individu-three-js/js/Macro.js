@@ -1,0 +1,26 @@
+class Macro {
+  // camera
+  CAMERA_FOV = 95;
+  CAMERA_ASPECT = 2;
+  CAMERA_NEAR = 0.1;
+  CAMERA_FAR = 200;
+  CAMERA_POSITION = 30;
+
+  // light
+  LIGHT_COLOR = 0xffffff;
+  LIGHT_INTENSITY = 1;
+  LIGHT_X = 10;
+  LIGHT_Y = 6;
+  LIGHT_Z = 4;
+
+  // sphere
+  SPHERE_RADIUS = 3.5;
+  SPHERE_HEIGHT_SEGMENTS = 30;
+  SPHERE_WIDTH_SEGMENTS = 30;
+  SPHERE_X_SPREAD = 57;
+  SPHERE_Y_SPREAD = 27;
+  SPHERE_Z_SPREAD = 8;
+
+  // others
+  MAX_WAIT_TIME = 1000;
+}
